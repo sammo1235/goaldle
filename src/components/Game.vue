@@ -249,6 +249,8 @@ a {
   display: none;
 }
 .modal {
+  display: flex;
+  justify-content: center;
   z-index: 50;
   padding: 3rem;
   border-radius: 25px;
@@ -318,8 +320,9 @@ a {
 }
 
 .mini-wrapper {
+  justify-content: center;
+  margin-inline: auto;
   display: grid;
-  margin: auto;
   width: 50%;
   grid-template-columns: repeat(5, 1fr);
   grid-auto-rows: minmax(15px, auto);
