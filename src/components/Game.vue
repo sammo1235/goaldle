@@ -81,11 +81,29 @@ export default {
         return pl
       }
     })
+    // new player per day
     const ms_per_day = 24 * 60 * 60 * 1000
     let days_since_epoch = Math.floor((new Date()).getTime() / ms_per_day)
     let player_index = days_since_epoch % this.playerDatabase.length
     this.mysteryPlayer = this.playerDatabase[player_index]
-    window.mysteryPlayer = this.mysteryPlayer
+    // fill current day guesses if present
+    let guesses = this.$store.getters.getGuesses
+    if (guesses) {
+      guesses.forEach(guess => {
+        this.guesses.push(guess)
+        this.turnsLeft -= 1
+      })
+    }
+    // show todays result if already played
+    let results = this.$store.getters.getResultsHistoryToday
+    if (results != null) {
+      if (results.won) {
+        this.showWon = true;
+      } else {
+        this.showLost = true
+      }
+      this.gameFinished = true
+    } 
   },
   computed: {
     filteredPlayers() {
@@ -105,13 +123,16 @@ export default {
         player.full_name.toLowerCase() == guessedName.toLowerCase()
       )
       this.guesses.push(player)
+      this.$store.commit('addGuess', player)
       this.search = ''
       this.turnsLeft -= 1
       if (player == this.mysteryPlayer) {
         this.showWon = true
         this.gameFinished = true
+        this.$store.commit("saveResult", {turnsTaken: 7 - this.turnsLeft, won: true})
       } else if (this.turnsLeft == 0) {
         this.showLost = true
+        this.$store.commit("saveResult", {turnsTaken: 7, won: false})
       }
     },
     clubCorrect(clubGuess) {
