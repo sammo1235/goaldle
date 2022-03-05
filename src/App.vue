@@ -111,7 +111,8 @@ export default {
   right: 0; 
   margin-left: auto; 
   margin-right: auto; 
-  width: 480px; /* Need a specific value to work */
+  min-width: 240px;
+  max-width: 480px; /* Need a specific value to work */
   margin-bottom: 5rem;
   top: 15rem; 
   border: 1px solid lightblue; 
