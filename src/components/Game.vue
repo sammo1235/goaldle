@@ -25,19 +25,19 @@
 
     <div class="search">
       <input type="text" class="search-input" v-model="search" placeholder="Search Players" :disabled="gameFinished || showWon || showLost || showHowToPlay" />
-      <ul style="border: 1px solid lightblue">
+      <ul style="display: flex; flex-direction: column; border: 1px solid lightblue">
         <li class="search-result" v-for="player in filteredPlayers" v-bind:key="player.id" @click="guessPlayer(player.full_name)">{{ player.full_name}}</li>
       </ul>
     </div>
 
     <div style="margin-top: 7rem">
       <div :class="[this.turnsLeft > 6 ? 'hide' : 'wrapper']" style="row-gap: 20px;">
-        <div class="cell"></div>
-        <div class="cell">Club</div>
-        <div class="cell">Position</div>
-        <div class="cell">Nationality</div>
-        <div class="cell">Age</div>
-        <div class="cell">Kit Colour</div>
+        <div class="title-cell"></div>
+        <div class="title-cell">Club</div>
+        <div class="title-cell">Position</div>
+        <div class="title-cell">Nationality</div>
+        <div class="title-cell">Age</div>
+        <div class="title-cell">Kit Colour</div>
       </div>
       <div class="wrapper" style="row-gap: 20px;" v-for="guess in guesses" v-bind:key="guess.id">
         <div class="cell cell-border name cell-border-top">{{ guess.full_name }}</div>
@@ -244,15 +244,6 @@ li:hover {
 a {
   color: #42b983;
 }
-.search-input {
-  max-width: 480px;
-  min-width: 180px;
-  padding: 1rem; 
-  font-size: 20px; 
-  position: relative; 
-  margin-right: auto;
-  margin-left: auto;
-}
 .hide {
   display: none;
 }
@@ -274,7 +265,15 @@ a {
 .modal-backdrop {
   opacity: 0.5 !important;
 }
-
+.search-input {
+  max-width: 480px;
+  min-width: 80px;
+  padding: 1rem; 
+  font-size: 20px; 
+  position: relative; 
+  margin-right: auto;
+  margin-left: auto;
+}
 .search {
   position: absolute; 
   left: 0; 
@@ -282,7 +281,7 @@ a {
   margin-left: auto; 
   margin-right: auto; 
   max-width: 480px;
-  min-width: 180px;
+  min-width: 80px;
   margin-bottom: 5rem;
 }
 .search-result {
@@ -290,7 +289,8 @@ a {
   z-index: 50; 
   position: relative; 
   background: white; 
-  width: 445px;
+  min-width: 340px;
+  max-width: 100%;
   padding: 1rem;
 }
 .name {
@@ -298,15 +298,23 @@ a {
 }
 .wrapper {
   display: grid;
+  width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
   grid-auto-rows: minmax(50px, auto);
 }
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 600px) {
+  .wrapper {
+    margin: auto;
+    width: 80%;
+  }
+}
+@media only screen and (min-width: 1000px) {
   .wrapper {
     margin: auto;
     width: 50%;
   }
 }
+
 .mini-wrapper {
   display: grid;
   margin: auto;
@@ -319,6 +327,13 @@ a {
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  font-size: 2vmin;
+}
+.title-cell {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 2vmin;
 }
 .cell-border-top {
