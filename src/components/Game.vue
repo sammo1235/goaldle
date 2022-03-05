@@ -31,7 +31,7 @@
       </ul>
     </div>
 
-    <div style="margin-top: 7rem">
+    <div style="margin-top: 7rem; margin-bottom: 8rem;">
       <div :class="[this.turnsLeft > 6 ? 'hide' : 'wrapper']" style="row-gap: 20px;">
         <div class="title-cell"></div>
         <div class="title-cell">Club</div>

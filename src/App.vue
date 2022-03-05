@@ -147,7 +147,7 @@ export default {
   background: #3AAFA9;
 }
 .footer {
-  position: sticky;
+  position: fixed;
   bottom: 0;
   width: 100%;
   background: #3AAFA9;
