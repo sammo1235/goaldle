@@ -11,7 +11,7 @@
       <div :class="[colourCorrect(guess.kit_colour) ? 'correct' : colourHalfCorrect(guess.kit_colour) ? 'close' : 'incorrect', 'cell cell-border-top']"></div>
     </div>
 
-    <button @click="copyToClipboard()" style="margin-top: 1rem;">Copy to clipboard</button>
+    <button @click="closeShowWon()" style="margin-top: 1rem; padding-inline: 2rem; background: #fff">Close</button>
   </div>
 
   <div v-if="showLost" class="modal" style="">
@@ -20,11 +20,11 @@
     <p>{{ this.mysteryPlayer.full_name }}</p>
   </div>
 
-  <div :class="[showWon ? 'modal-backdrop' : null, 'hello']">
+  <div :class="[showWon || showLost ? 'modal-backdrop' : null, 'hello']">
     <h1>Goaldle</h1>
 
     <div class="search">
-      <input type="text" class="search-input" v-model="search" placeholder="Search Players" :disabled="showWon || showLost" />
+      <input type="text" class="search-input" v-model="search" placeholder="Search Players" :disabled="gameFinished || showWon || showLost || showHowToPlay" />
       <ul style="border: 1px solid lightblue">
         <li class="search-result" v-for="player in filteredPlayers" v-bind:key="player.id" @click="guessPlayer(player.full_name)">{{ player.full_name}}</li>
       </ul>
@@ -53,12 +53,14 @@
 
 <script>
 import csvFile from "../assets/goaldle.csv"
-import copy from 'copy-html-to-clipboard'
+// import copy from 'copy-html-to-clipboard'
+import ClipboardItem from 'clipboard'
 
 export default {
-  name: 'HelloWorld',
+  name: 'PlayGame',
   props: {
-    msg: String
+    msg: String,
+    showHowToPlay: Boolean
   },
   data() {
     return {
@@ -69,7 +71,8 @@ export default {
       guesses: [],
       showInstructions: false,
       showWon: false,
-      showLost: false
+      showLost: false,
+      gameFinished: false
     }
   },
   created() {
@@ -106,6 +109,7 @@ export default {
       this.turnsLeft -= 1
       if (player == this.mysteryPlayer) {
         this.showWon = true
+        this.gameFinished = true
       } else if (this.turnsLeft == 0) {
         this.showLost = true
       }
@@ -141,24 +145,68 @@ export default {
       let gCols = colourGuess.split(" / ")
       return cols.filter(val => gCols.includes(val)).length > 0
     },
+    closeShowWon() {
+      this.showWon = false
+    },
+    closeShowLost() {
+      this.showLost = false
+    },
     copyToClipboard() {
-      let results = document.getElementById("gameResults")
-      let clone = results.cloneNode(true)
+
+      try {
+        let results = document.getElementById("gameResults").innerHTML
+        const blobInput = new Blob([results], {type: 'text/html'})
+        const clipboardItemInput = new ClipboardItem({'text/html' : blobInput })
+        navigator.clipboard.write([clipboardItemInput])
+        // results.toBlob(blob => navigator.clipboard.write([new ClipboardItem({'image/png': blob})]))
+      } catch(e) {
+        console.log(e)
+      }
+
+      // let clone = results.cloneNode(true)
       // window.res = clone.outerHTML
       // document.body.appendChild(clone)
       // clone.select()
       // document.execCommand('copy')
       // document.body.removeChild(clone)
-      copy(clone.outerHTML, {
-        asHtml: true
-      })
+      // var canvas = document.createElement("CANVAS")
+    //   var img = document.createElement('img');
+    //   img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAElBMVEVAygOW4HdEvwQ8zQA9ywRBygBw60gpAAABAUlEQVR4nO3PARGAMAwAsQKdf8vo+F3iIPO8387ZPXMrwz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+w7wfv64YnTVjj7gAAAAASUVORK5CYII=" //canvas.toDataURL()
+
+    //   var div = document.createElement('div');
+    //   div.contentEditable = true;
+    //   div.appendChild(img);
+    //   document.body.appendChild(div);
+
+    //   // do copy
+    //   SelectText(div)
+    //   document.execCommand('Copy');
+    //   document.body.removeChild(div);
+    //   // copy(clone.outerHTML, {
+    //   //   asHtml: true
+    //   // })
+    //   function SelectText(element) {
+    //     var doc = document;
+    //     var range;
+    //     if (doc.body.createTextRange) {
+    //         range = document.body.createTextRange();
+    //         range.moveToElementText(element);
+    //         range.select();
+    //     } else if (window.getSelection) {
+    //         var selection = window.getSelection();
+    //         range = document.createRange();
+    //         range.selectNodeContents(element);
+    //         selection.removeAllRanges();
+    //         selection.addRange(range);
+    //     }
+    // }
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 h3 {
   margin: 40px 0 0;
 }
@@ -251,7 +299,7 @@ a {
   border-right: 2px solid #3B5057;
 }
 .correct {
-  background: #36B336;
+  background: #5CDB95;
   color: #FEFFFF
 }
 .incorrect {
