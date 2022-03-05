@@ -1,6 +1,6 @@
 <template>
-  <div v-if="showWon" class="modal" style="">
-    <p style="font-size: 20px">Well done!</p>
+  <div v-if="showWon" class="modal">
+    <p style="font-size: 35px">Well done!</p>
     <p>You guessed the mystery player in {{ 7 - this.turnsLeft }} {{ (7 - this.turnsLeft) > 1 ? 'turns' : 'turn' }}.</p>
     <p>{{ this.mysteryPlayer.full_name }}</p>
     <div id="gameResults" class="mini-wrapper" style="row-gap: 20px;" v-for="guess in guesses" v-bind:key="guess.id">
@@ -11,13 +11,14 @@
       <div :class="[colourCorrect(guess.kit_colour) ? 'correct' : colourHalfCorrect(guess.kit_colour) ? 'close' : 'incorrect', 'cell cell-border-top']"></div>
     </div>
 
-    <button @click="closeShowWon()" style="margin-top: 1rem; padding-inline: 2rem; background: #fff">Close</button>
+    <button @click="closeShowWon()" class="button-43" role="button">Close</button>
   </div>
 
-  <div v-if="showLost" class="modal" style="">
+  <div v-if="showLost" class="modal">
     <p style="font-size: 20px">Better luck next time!</p>
     <p>The mystery players name was:</p>
     <p>{{ this.mysteryPlayer.full_name }}</p>
+    <button @click="closeShowLost()" class="button-43" role="button">Close</button>
   </div>
 
   <div :class="[showWon || showLost ? 'modal-backdrop' : null, 'hello']">
@@ -249,16 +250,17 @@ a {
 }
 .modal {
   z-index: 50;
-  padding: 4rem;
+  padding: 3rem;
   border-radius: 25px;
   position: absolute; 
   left: 0;
   right: 0; 
   margin-left: auto; 
   margin-right: auto; 
-  width: 480px; /* Need a specific value to work */
+  min-width: 240px;
+  max-width: 480px; 
   margin-bottom: 5rem;
-  top: 15rem; 
+  top: 10rem; 
   border: 1px solid lightblue; 
   background: #fff
 }
@@ -337,13 +339,23 @@ a {
   font-size: 2vmin;
 }
 .cell-border-top {
-  border-top: 0.5px solid #3B5057;
+  border-top: 2px solid #fff;
+}
+@media only screen and (min-width: 600px) {
+  .cell-border-top {
+    border-top: 4px solid #fff;
+  }
 }
 .cell-border {
-  border-right: 2px solid #3B5057;
+  border-right: 2px solid #fff;
+}
+@media only screen and (min-width: 600px) {
+  .cell-border {
+    border-right: 4px solid #fff;
+  }
 }
 .correct {
-  background: #5CDB95;
+  background: #37be75;
   color: #FEFFFF
 }
 .incorrect {
