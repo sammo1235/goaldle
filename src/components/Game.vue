@@ -1,0 +1,265 @@
+<template>
+  <div v-if="showWon" class="modal" style="">
+    <p style="font-size: 20px">Well done!</p>
+    <p>You guessed the mystery player in {{ 7 - this.turnsLeft }} {{ (7 - this.turnsLeft) > 1 ? 'turns' : 'turn' }}.</p>
+    <p>{{ this.mysteryPlayer.full_name }}</p>
+    <div id="gameResults" class="mini-wrapper" style="row-gap: 20px;" v-for="guess in guesses" v-bind:key="guess.id">
+      <div :class="[clubCorrect(guess.current_club) ? 'correct' : 'incorrect', 'cell cell-border cell-border-top']"></div>
+      <div :class="[positionCorrect(guess.position) ? 'correct' : 'incorrect', 'cell cell-border cell-border-top']"></div>
+      <div :class="[countryCorrect(guess.nationality) ? 'correct' : continentCorrect(guess.continent) ? 'close' : 'incorrect', 'cell cell-border cell-border-top']"></div>
+      <div :class="[ageCorrect(guess.age) ? 'correct' : ageClose(guess.age) ? 'close' : 'incorrect', 'cell cell-border cell-border-top']"></div>
+      <div :class="[colourCorrect(guess.kit_colour) ? 'correct' : colourHalfCorrect(guess.kit_colour) ? 'close' : 'incorrect', 'cell cell-border-top']"></div>
+    </div>
+
+    <button @click="copyToClipboard()" style="margin-top: 1rem;">Copy to clipboard</button>
+  </div>
+
+  <div v-if="showLost" class="modal" style="">
+    <p style="font-size: 20px">Better luck next time!</p>
+    <p>The mystery players name was:</p>
+    <p>{{ this.mysteryPlayer.full_name }}</p>
+  </div>
+
+  <div :class="[showWon ? 'modal-backdrop' : null, 'hello']">
+    <h1>Goaldle</h1>
+
+    <div class="search">
+      <input type="text" class="search-input" v-model="search" placeholder="Search Players" :disabled="showWon || showLost" />
+      <ul style="border: 1px solid lightblue">
+        <li class="search-result" v-for="player in filteredPlayers" v-bind:key="player.id" @click="guessPlayer(player.full_name)">{{ player.full_name}}</li>
+      </ul>
+    </div>
+
+    <div style="margin-top: 7rem">
+      <div :class="[this.turnsLeft > 6 ? 'hide' : 'wrapper']" style="row-gap: 20px;">
+        <div class="cell"></div>
+        <div class="cell">Club</div>
+        <div class="cell">Position</div>
+        <div class="cell">Nationality</div>
+        <div class="cell">Age</div>
+        <div class="cell">Kit Colour</div>
+      </div>
+      <div class="wrapper" style="row-gap: 20px;" v-for="guess in guesses" v-bind:key="guess.id">
+        <div class="cell cell-border name cell-border-top">{{ guess.full_name }}</div>
+        <div :class="[clubCorrect(guess.current_club) ? 'correct' : 'incorrect', 'cell cell-border cell-border-top']">{{ guess.current_club }}</div>
+        <div :class="[positionCorrect(guess.position) ? 'correct' : 'incorrect', 'cell cell-border cell-border-top']">{{ guess.position }}</div>
+        <div :class="[countryCorrect(guess.nationality) ? 'correct' : continentCorrect(guess.continent) ? 'close' : 'incorrect', 'cell cell-border cell-border-top']">{{ guess.nationality }}</div>
+        <div :class="[ageCorrect(guess.age) ? 'correct' : ageClose(guess.age) ? 'close' : 'incorrect', 'cell cell-border cell-border-top']">{{ guess.age }}</div>
+        <div :class="[colourCorrect(guess.kit_colour) ? 'correct' : colourHalfCorrect(guess.kit_colour) ? 'close' : 'incorrect', 'cell cell-border-top']">{{ guess.kit_colour }}</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import csvFile from "../assets/goaldle.csv"
+import copy from 'copy-html-to-clipboard'
+
+export default {
+  name: 'HelloWorld',
+  props: {
+    msg: String
+  },
+  data() {
+    return {
+      search: '',
+      turnsLeft: 7,
+      mysteryPlayer: csvFile[47],
+      playerDatabase: null,
+      guesses: [],
+      showInstructions: false,
+      showWon: false,
+      showLost: false
+    }
+  },
+  created() {
+    this.playerDatabase = csvFile.filter(function (pl) {
+      if (pl.position != "Goalkeeper") {
+        return pl
+      }
+    })
+    const ms_per_day = 24 * 60 * 60 * 1000
+    let days_since_epoch = Math.floor((new Date()).getTime() / ms_per_day)
+    let player_index = days_since_epoch % this.playerDatabase.length
+    this.mysteryPlayer = this.playerDatabase[player_index]
+    window.mysteryPlayer = this.mysteryPlayer
+  },
+  computed: {
+    filteredPlayers() {
+      if (this.search == "") {
+        return []
+      }
+      let players = this.playerDatabase.filter(player => {
+        return player.full_name.toLowerCase().includes(this.search.toLowerCase())
+      })
+      return players.slice(0, 5)
+    }
+  },
+  methods: {
+    guessPlayer(guessedName) {
+      console.log("guessed player: ", guessedName)
+      let player = this.playerDatabase.find(player => 
+        player.full_name.toLowerCase() == guessedName.toLowerCase()
+      )
+      this.guesses.push(player)
+      this.search = ''
+      this.turnsLeft -= 1
+      if (player == this.mysteryPlayer) {
+        this.showWon = true
+      } else if (this.turnsLeft == 0) {
+        this.showLost = true
+      }
+    },
+    clubCorrect(clubGuess) {
+      return clubGuess == this.mysteryPlayer.current_club
+    },
+    positionCorrect(positionGuess) {
+      return positionGuess == this.mysteryPlayer.position
+    },
+    countryCorrect(countryGuess) {
+      return countryGuess == this.mysteryPlayer.nationality
+    },
+    continentCorrect(continentGuess) {
+      return continentGuess == this.mysteryPlayer.continent
+    },
+    ageCorrect(ageGuess) {
+      return ageGuess == this.mysteryPlayer.age
+    },
+    ageClose(ageGuess) {
+      let closeArray = []
+      let cAge = this.mysteryPlayer.age
+      for (let i = cAge - 2; i <= cAge + 2; i++) {
+        closeArray.push(i)
+      }
+      return closeArray.includes(ageGuess)
+    },
+    colourCorrect(colourGuess) {
+      return colourGuess == this.mysteryPlayer.kit_colour
+    },
+    colourHalfCorrect(colourGuess) {
+      let cols = this.mysteryPlayer.kit_colour.split(" / ")
+      let gCols = colourGuess.split(" / ")
+      return cols.filter(val => gCols.includes(val)).length > 0
+    },
+    copyToClipboard() {
+      let results = document.getElementById("gameResults")
+      let clone = results.cloneNode(true)
+      // window.res = clone.outerHTML
+      // document.body.appendChild(clone)
+      // clone.select()
+      // document.execCommand('copy')
+      // document.body.removeChild(clone)
+      copy(clone.outerHTML, {
+        asHtml: true
+      })
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
+h3 {
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+}
+li:hover {
+  background: #DEF2F1;
+}
+a {
+  color: #42b983;
+}
+.search-input {
+  width: 400px; 
+  padding: 1rem; 
+  font-size: 20px; 
+  position: relative; 
+  margin-right: auto;
+  margin-left: auto;
+}
+.hide {
+  display: none;
+}
+.modal {
+  z-index: 50;
+  padding: 4rem;
+  border-radius: 25px;
+  position: absolute; 
+  left: 0;
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 480px; /* Need a specific value to work */
+  margin-bottom: 5rem;
+  top: 15rem; 
+  border: 1px solid lightblue; 
+  background: #fff
+}
+.modal-backdrop {
+  opacity: 0.5 !important;
+}
+.search {
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 480px; /* Need a specific value to work */
+  margin-bottom: 5rem;
+}
+.search-result {
+  cursor: pointer; 
+  z-index: 50; 
+  position: relative; 
+  background: white; 
+  width: 445px;
+  padding: 1rem;
+}
+.name {
+  background: #DEF2F1;
+}
+.wrapper {
+  display: grid;
+  margin: auto;
+  width: 50%;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: minmax(50px, auto);
+}
+.mini-wrapper {
+  display: grid;
+  margin: auto;
+  width: 50%;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: minmax(15px, auto);
+}
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+.cell-border-top {
+  border-top: 0.5px solid #3B5057;
+}
+.cell-border {
+  border-right: 2px solid #3B5057;
+}
+.correct {
+  background: #36B336;
+  color: #FEFFFF
+}
+.incorrect {
+  background: #FF4D4D;
+  color: #FEFFFF
+}
+.close {
+  background: #ffa64d;
+  color: #FEFFFF
+}
+</style>
