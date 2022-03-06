@@ -40,7 +40,6 @@ export const store = createStore({
       state.count++
     },
     addGuess (state, guess) {
-      console.log("adding guess", guess)
       let date = new Date().toLocaleString().split(", ")[0]
       if (state.guesses[date] == undefined) {
         state.guesses[date] = [guess]
