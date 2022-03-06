@@ -54,8 +54,7 @@
 
 <script>
 import csvFile from "../assets/goaldle.csv"
-// import copy from 'copy-html-to-clipboard'
-import ClipboardItem from 'clipboard'
+// import ClipboardItem from 'clipboard'
 
 export default {
   name: 'PlayGame',
@@ -82,11 +81,12 @@ export default {
         return pl
       }
     })
-    // new player per day
-    const ms_per_day = 24 * 60 * 60 * 1000
+    // new player per hour
+    const ms_per_day = 1 * 60 * 60 * 1000
     let days_since_epoch = Math.floor((new Date()).getTime() / ms_per_day)
     let player_index = days_since_epoch % this.playerDatabase.length
     this.mysteryPlayer = this.playerDatabase[player_index]
+    console.log("mysteryPlayer: ", this.mysteryPlayer.full_name, this.mysteryPlayer.current_club, this.mysteryPlayer.position, this.mysteryPlayer.nationality, this.mysteryPlayer.age, this.mysteryPlayer.kit_colour)
     // fill current day guesses if present
     let guesses = this.$store.getters.getGuesses
     if (guesses) {
@@ -119,7 +119,6 @@ export default {
   },
   methods: {
     guessPlayer(guessedName) {
-      console.log("guessed player: ", guessedName)
       let player = this.playerDatabase.find(player => 
         player.full_name.toLowerCase() == guessedName.toLowerCase()
       )
@@ -175,53 +174,14 @@ export default {
     },
     copyToClipboard() {
 
-      try {
-        let results = document.getElementById("gameResults").innerHTML
-        const blobInput = new Blob([results], {type: 'text/html'})
-        const clipboardItemInput = new ClipboardItem({'text/html' : blobInput })
-        navigator.clipboard.write([clipboardItemInput])
-        // results.toBlob(blob => navigator.clipboard.write([new ClipboardItem({'image/png': blob})]))
-      } catch(e) {
-        console.log(e)
-      }
+      // let results = document.getElementById("gameResults")
+      // setClipboard(results.innerHTML)
 
-      // let clone = results.cloneNode(true)
-      // window.res = clone.outerHTML
-      // document.body.appendChild(clone)
-      // clone.select()
-      // document.execCommand('copy')
-      // document.body.removeChild(clone)
-      // var canvas = document.createElement("CANVAS")
-    //   var img = document.createElement('img');
-    //   img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAElBMVEVAygOW4HdEvwQ8zQA9ywRBygBw60gpAAABAUlEQVR4nO3PARGAMAwAsQKdf8vo+F3iIPO8387ZPXMrwz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+wz7DPsM+w7wfv64YnTVjj7gAAAAASUVORK5CYII=" //canvas.toDataURL()
+      // function setClipboard(text) {
+      //   var type = "text/plain";
+      //   var blob = new Blob([text], { type });
+      //   var data = [new ClipboardItem({ [type]: blob })];
 
-    //   var div = document.createElement('div');
-    //   div.contentEditable = true;
-    //   div.appendChild(img);
-    //   document.body.appendChild(div);
-
-    //   // do copy
-    //   SelectText(div)
-    //   document.execCommand('Copy');
-    //   document.body.removeChild(div);
-    //   // copy(clone.outerHTML, {
-    //   //   asHtml: true
-    //   // })
-    //   function SelectText(element) {
-    //     var doc = document;
-    //     var range;
-    //     if (doc.body.createTextRange) {
-    //         range = document.body.createTextRange();
-    //         range.moveToElementText(element);
-    //         range.select();
-    //     } else if (window.getSelection) {
-    //         var selection = window.getSelection();
-    //         range = document.createRange();
-    //         range.selectNodeContents(element);
-    //         selection.removeAllRanges();
-    //         selection.addRange(range);
-    //     }
-    // }
     }
   }
 }
@@ -229,6 +189,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+h1 {
+  font-size: 30px;
+  margin-bottom: 1rem;
+}
+@media only screen and (min-width: 600px) {
+  h1 {
+    font-size: 40px;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  h1 {
+    font-size: 50px;
+  }
+}
 h3 {
   margin: 40px 0 0;
 }
