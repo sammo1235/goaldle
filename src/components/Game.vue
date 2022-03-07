@@ -188,7 +188,6 @@ export default {
       return colourGuess == this.mysteryPlayer.kit_colour
     },
     colourHalfCorrect(colourGuess) {
-    console.log(colourGuess)
       let cols = this.mysteryPlayer.kit_colour.split(" / ")
       let gCols = colourGuess.split(" / ")
       return cols.filter(val => gCols.includes(val)).length > 0
@@ -204,7 +203,6 @@ export default {
       var guesses = this.guesses
       // let results = document.getElementById("gameResults")
       for(var i = 0; i<this.guesses.length; i++) {
-        console.log(guesses[i])
         if (this.clubCorrect(guesses[i].current_club)) {
           str += "🟩" 
         } else {
@@ -251,7 +249,7 @@ export default {
         document.removeEventListener('copy', listener);
       }
 
-      if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
+      if (str) {
         let result;
         let textarea;
         try {
@@ -260,6 +258,9 @@ export default {
           textarea.setAttribute('contenteditable', true);
           textarea.style.position = 'fixed'; // prevent scroll from jumping to the bottom when focus is set.
           textarea.value = str;
+
+          document.body.appendChild(textarea);
+          
           textarea.focus();
           textarea.select();
 
