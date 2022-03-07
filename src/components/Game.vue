@@ -260,7 +260,7 @@ export default {
           textarea.value = str;
 
           document.body.appendChild(textarea);
-          
+
           textarea.focus();
           textarea.select();
 
@@ -278,6 +278,7 @@ export default {
           result = null;
         } finally {
           document.body.removeChild(textarea);
+          document.getElementById('copybtn').innerHTML = "Copied!"
         }
         // manual copy fallback using prompt
         if (!result) {
@@ -291,8 +292,8 @@ export default {
         return true;
       } else {
         copyRichText(str);
+        document.getElementById('copybtn').innerHTML = "Copied!"
       }
-      document.getElementById('copybtn').innerHTML = "Copied!"
     }
   }
 }
