@@ -334,8 +334,19 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  font-size: 2vmin;
+  padding-inline: 1.5rem;
+  padding: 1rem;
+  font-size: 10px;
+}
+@media only screen and (min-width: 600px) {
+  .cell {
+    font-size: 18px;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  .cell {
+    font-size: 21px;
+  }
 }
 .cell-spin-1 {
   animation: spin .2s linear;
