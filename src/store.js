@@ -10,7 +10,6 @@ export const store = createStore({
   plugins: [vuexLocal.plugin],
   state () {
     return {
-      count: 0,
       guesses: {},
       resultsHistory: {}
     }
@@ -39,9 +38,6 @@ export const store = createStore({
     }
   },
   mutations: {
-    increment (state) {
-      state.count++
-    },
     addGuess (state, guess) {
       const ms_per_hour = 1 * 60 * 60 * 1000
       let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)

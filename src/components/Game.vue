@@ -41,12 +41,12 @@
         <div class="title-cell">Kit Colour</div>
       </div>
       <div class="wrapper" style="row-gap: 20px;" v-for="guess in guesses" v-bind:key="guess.id">
-        <div class="cell cell-border name cell-border-top">{{ guess.full_name }}</div>
-        <div :class="[clubCorrect(guess.current_club) ? 'correct' : 'incorrect', 'cell cell-border cell-border-top']">{{ guess.current_club }}</div>
-        <div :class="[positionCorrect(guess.position) ? 'correct' : 'incorrect', 'cell cell-border cell-border-top']">{{ guess.position }}</div>
-        <div :class="[countryCorrect(guess.nationality) ? 'correct' : continentCorrect(guess.continent) ? 'close' : 'incorrect', 'cell cell-border cell-border-top']">{{ guess.nationality }}</div>
-        <div :class="[ageCorrect(guess.age) ? 'correct' : ageClose(guess.age) ? 'close' : 'incorrect', 'cell cell-border cell-border-top']">{{ guess.age }}</div>
-        <div :class="[colourCorrect(guess.kit_colour) ? 'correct' : colourHalfCorrect(guess.kit_colour) ? 'close' : 'incorrect', 'cell cell-border-top']">{{ guess.kit_colour }}</div>
+        <div class="cell cell-border name cell-border-top cell-spin-1">{{ guess.full_name }}</div>
+        <div :class="[clubCorrect(guess.current_club) ? 'correct' : 'incorrect', 'cell cell-border cell-border-top cell-spin-2']">{{ guess.current_club }}</div>
+        <div :class="[positionCorrect(guess.position) ? 'correct' : 'incorrect', 'cell cell-border cell-border-top cell-spin-3']">{{ guess.position }}</div>
+        <div :class="[countryCorrect(guess.nationality) ? 'correct' : continentCorrect(guess.continent) ? 'close' : 'incorrect', 'cell cell-border cell-border-top cell-spin-4']">{{ guess.nationality }}</div>
+        <div :class="[ageCorrect(guess.age) ? 'correct' : ageClose(guess.age) ? 'close' : 'incorrect', 'cell cell-border cell-border-top cell-spin-5']">{{ guess.age }}</div>
+        <div :class="[colourCorrect(guess.kit_colour) ? 'correct' : colourHalfCorrect(guess.kit_colour) ? 'close' : 'incorrect', 'cell cell-border-top cell-spin-6']">{{ guess.kit_colour }}</div>
       </div>
     </div>
   </div>
@@ -104,16 +104,35 @@ export default {
         this.showLost = true
       }
       this.gameFinished = true
-    } 
+    }
   },
   computed: {
     filteredPlayers() {
       if (this.search == "") {
         return []
       }
+      var diacritics = {
+        a: 'ÀÁÂÃÄÅàáâãäåĀāąĄ',
+        c: 'ÇçćĆčČ',
+        d: 'đĐďĎ',
+        e: 'ÈÉÊËèéêëěĚĒēęĘ',
+        i: 'ÌÍÎÏìíîïĪī',
+        l: 'łŁ',
+        n: 'ÑñňŇńŃ',
+        o: 'ÒÓÔÕÕÖØòóôõöøŌō',
+        r: 'řŘ',
+        s: 'ŠšśŚ',
+        t: 'ťŤ',
+        u: 'ÙÚÛÜùúûüůŮŪū',
+        y: 'ŸÿýÝ',
+        z: 'ŽžżŻźŹ'
+      }
+
+      function replaceDiacritics(text) { return text .split('') .map(l => Object.keys(diacritics).find(k => diacritics[k].includes(l)) || l) .join(''); }
       let players = this.playerDatabase.filter(player => {
-        return player.full_name.toLowerCase().includes(this.search.toLowerCase())
+        return replaceDiacritics(player.full_name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")).includes(this.search.toLowerCase())
       })
+
       return players.slice(0, 5)
     }
   },
@@ -127,9 +146,12 @@ export default {
       this.search = ''
       this.turnsLeft -= 1
       if (player == this.mysteryPlayer) {
-        this.showWon = true
-        this.gameFinished = true
-        this.$store.commit("saveResult", {turnsTaken: 7 - this.turnsLeft, won: true})
+        const $this = this;
+        setTimeout(function() {
+          $this.showWon = true
+          $this.gameFinished = true
+          $this.$store.commit("saveResult", {turnsTaken: 7 - this.turnsLeft, won: true})
+        }, 1000)
       } else if (this.turnsLeft == 0) {
         this.showLost = true
         this.$store.commit("saveResult", {turnsTaken: 7, won: false})
@@ -301,12 +323,37 @@ a {
   grid-template-columns: repeat(5, 1fr);
   grid-auto-rows: minmax(15px, auto);
 }
+@keyframes spin { 
+    from { 
+        transform: rotateY(180deg); 
+    } to { 
+        transform: rotateY(360deg); 
+    }
+}
 .cell {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
   font-size: 2vmin;
+}
+.cell-spin-1 {
+  animation: spin .2s linear;
+}
+.cell-spin-2 {
+  animation: spin .4s linear;
+}
+.cell-spin-3 {
+  animation: spin .6s linear;
+}
+.cell-spin-4 {
+  animation: spin .8s linear;
+}
+.cell-spin-5 {
+  animation: spin 1s linear;
+}
+.cell-spin-6 {
+  animation: spin 1.2s linear;
 }
 .title-cell {
   margin-top: 2rem;
