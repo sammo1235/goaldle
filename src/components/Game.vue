@@ -82,9 +82,9 @@ export default {
       }
     })
     // new player per hour
-    const ms_per_day = 1 * 60 * 60 * 1000
-    let days_since_epoch = Math.floor((new Date()).getTime() / ms_per_day)
-    let player_index = days_since_epoch % this.playerDatabase.length
+    const ms_per_hour = 1 * 60 * 60 * 1000
+    let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)
+    let player_index = hours_since_epoch % this.playerDatabase.length
     this.mysteryPlayer = this.playerDatabase[player_index]
     console.log("mysteryPlayer: ", this.mysteryPlayer.full_name, this.mysteryPlayer.current_club, this.mysteryPlayer.position, this.mysteryPlayer.nationality, this.mysteryPlayer.age, this.mysteryPlayer.kit_colour)
     // fill current day guesses if present
@@ -95,8 +95,8 @@ export default {
         this.turnsLeft -= 1
       })
     }
-    // show todays result if already played
-    let results = this.$store.getters.getResultsHistoryToday
+    // show hours result if already played
+    let results = this.$store.getters.getResultsHistoryForTimePeriod
     if (results != null) {
       if (results.won) {
         this.showWon = true;
@@ -336,7 +336,7 @@ a {
   color: #FEFFFF
 }
 .incorrect {
-  background: #FF4D4D;
+  background: #878a8c;
   color: #FEFFFF
 }
 .close {

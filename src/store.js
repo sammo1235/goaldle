@@ -17,16 +17,19 @@ export const store = createStore({
   },
   getters: {
     getGuesses(state) {
-      let date = new Date().toLocaleString().split(", ")[0]
-      return state.guesses[date]
+      const ms_per_hour = 1 * 60 * 60 * 1000
+      let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)
+
+      return state.guesses[hours_since_epoch]
     },
     getResultsHistory(state) {
       return state.resultsHistory
     },
-    getResultsHistoryToday(state) {
-      let date = new Date().toLocaleString().split(", ")[0]
-      if (state.resultsHistory[date] != undefined) {
-        return state.resultsHistory[date]
+    getResultsHistoryForTimePeriod(state) {
+      const ms_per_hour = 1 * 60 * 60 * 1000
+      let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)
+      if (state.resultsHistory[hours_since_epoch] != undefined) {
+        return state.resultsHistory[hours_since_epoch]
       } else {
         return null
       }
@@ -40,16 +43,19 @@ export const store = createStore({
       state.count++
     },
     addGuess (state, guess) {
-      let date = new Date().toLocaleString().split(", ")[0]
-      if (state.guesses[date] == undefined) {
-        state.guesses[date] = [guess]
+      const ms_per_hour = 1 * 60 * 60 * 1000
+      let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)
+
+      if (state.guesses[hours_since_epoch] == undefined) {
+        state.guesses[hours_since_epoch] = [guess]
       } else {
-        state.guesses[date].push(guess)
+        state.guesses[hours_since_epoch].push(guess)
       }
     },
     saveResult (state, payload) {
-      let date = new Date().toLocaleString().split(", ")[0]
-      state.resultsHistory[date] = {turns_taken: payload.turnsTaken, won: payload.won}
+      const ms_per_hour = 1 * 60 * 60 * 1000
+      let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)
+      state.resultsHistory[hours_since_epoch] = {turns_taken: payload.turnsTaken, won: payload.won}
     }
   }
 })
