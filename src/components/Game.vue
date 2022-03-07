@@ -10,8 +10,12 @@
       <div :class="[ageCorrect(guess.age) ? 'correct' : ageClose(guess.age) ? 'close' : 'incorrect', 'cell cell-border cell-border-top']"></div>
       <div :class="[colourCorrect(guess.kit_colour) ? 'correct' : colourHalfCorrect(guess.kit_colour) ? 'close' : 'incorrect', 'cell cell-border-top']"></div>
     </div>
-
-    <button @click="closeShowWon()" class="button-43" role="button">Close</button>
+    <div id="gameResultsShared" v-for="guess in guesses" v-bind:key="guess.id">
+    </div>
+    <div style="display: flex; flex-direction: row; margin-top: 1rem;">
+      <button @click="copyToClipboard()" id="copybtn" class="button-43" role="button">Share</button>
+      <button @click="closeShowWon()" class="button-43" role="button">Close</button>
+    </div>
   </div>
 
   <div v-if="showLost" class="modal">
@@ -184,6 +188,7 @@ export default {
       return colourGuess == this.mysteryPlayer.kit_colour
     },
     colourHalfCorrect(colourGuess) {
+    console.log(colourGuess)
       let cols = this.mysteryPlayer.kit_colour.split(" / ")
       let gCols = colourGuess.split(" / ")
       return cols.filter(val => gCols.includes(val)).length > 0
@@ -195,15 +200,58 @@ export default {
       this.showLost = false
     },
     copyToClipboard() {
-
+      let str = `Goaldle 1 ${7-this.turnsLeft}/7 \n`
+      var guesses = this.guesses
       // let results = document.getElementById("gameResults")
-      // setClipboard(results.innerHTML)
+      for(var i = 0; i<this.guesses.length; i++) {
+        console.log(guesses[i])
+        if (this.clubCorrect(guesses[i].current_club)) {
+          str += "🟩" 
+        } else {
+          str += "⬜"
+        }
+        if (this.positionCorrect(guesses[i].position)) {
+          str += "🟩" 
+        } else {
+          str += "⬜"
+        }
+        if (this.countryCorrect(guesses[i].nationality)) {
+          str += "🟩"
+        } else if (this.continentCorrect(guesses[i].continent)) {
+          str += "🟨"
+        } else {
+          str += "⬜"
+        }
+        if (this.ageCorrect(guesses[i].age)) {
+          str += "🟩"
+        } else if (this.ageClose(guesses[i].age)) {
+          str += "🟨"
+        } else {
+          str += "⬜"
+        }
+        if (this.colourCorrect(guesses[i].kit_colour)) {
+          str += "🟩"
+        } else if (this.colourHalfCorrect(guesses[i].kit_colour)) {
+          str += "🟨"
+        } else {
+          str += "⬜"
+        }
+        str += "\n"
+      }
 
-      // function setClipboard(text) {
-      //   var type = "text/plain";
-      //   var blob = new Blob([text], { type });
-      //   var data = [new ClipboardItem({ [type]: blob })];
 
+      function copyRichText(text) {
+        const listener = function(ev) {
+          ev.preventDefault();
+          ev.clipboardData.setData('text/html', text);
+          ev.clipboardData.setData('text/plain', text);
+        };
+        document.addEventListener('copy', listener);
+        document.execCommand('copy');
+        document.removeEventListener('copy', listener);
+      }
+      copyRichText(str);
+      document.getElementById('copybtn').innerHTML = "Copied!"
     }
   }
 }
