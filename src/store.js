@@ -58,7 +58,6 @@ export const store = createStore({
     saveResult (state, payload) {
       const ms_per_hour = 1 * 60 * 60 * 1000
       let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)
-      console.log(payload.turnsTaken)
       state.resultsHistory[hours_since_epoch] = {turns_taken: payload.turnsTaken, won: payload.won}
     }
   }

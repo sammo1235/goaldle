@@ -126,8 +126,12 @@ export default {
         if (wonInTurnsTaken == 0) {
           return "5%"
         } else {
-          let guessedInPerc = this.totalGamesWon2() / Object.keys(results).filter((key) => results[key].turns_taken == turnsTaken).length
-          return `${guessedInPerc * 100}%`
+          let guessedInPerc = Object.keys(results).filter((key) => results[key].turns_taken == turnsTaken).length / this.totalGamesWon2()
+          if (guessedInPerc < 0.05) {
+            return "5%"
+          } else {
+            return `${guessedInPerc * 100}%`
+          }
         }
       } else {
         return "5%"
