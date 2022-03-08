@@ -27,9 +27,10 @@
 
   <div :class="[showWon || showLost ? 'modal-backdrop' : null, 'hello']">
     <h1>Goaldle</h1>
+    <h2>Premier League player guessing game</h2>
 
     <div class="search">
-      <input type="text" class="search-input" v-model="search" placeholder="Search Players" :disabled="gameFinished || showWon || showLost || showHowToPlay" />
+      <input type="text" class="search-input" v-model="search" placeholder="Guess a player" :disabled="gameFinished || showWon || showLost || showHowToPlay" />
       <ul style="display: flex; flex-direction: column; border: 1px solid lightblue">
         <li class="search-result" v-for="player in filteredPlayers" v-bind:key="player.id" @click="guessPlayer(player.full_name)">{{ player.full_name}}</li>
       </ul>
@@ -316,6 +317,19 @@ h1 {
 @media only screen and (min-width: 1000px) {
   h1 {
     font-size: 50px;
+  }
+}
+h2 {
+  font-size: 14px;
+}
+@media only screen and (min-width: 600px) {
+  h2 {
+    font-size: 18px;
+  }
+}
+@media only screen and (min-width: 1000px) {
+  h2 {
+    font-size: 20px;
   }
 }
 h3 {

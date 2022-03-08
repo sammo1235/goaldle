@@ -87,7 +87,15 @@ export default {
       this.showHowToPlay = true
       this.$store.commit('seenTutorial')
     }
+    // Title
     document.title = "Goaldle"
+    // Google analytics
+    let Script = document.createElement("script");
+    Script.setAttribute("src", "https://www.googletagmanager.com/gtag/js?id=G-M4DVV9YY7B");
+    let Script2 = document.createElement("script");
+    Script2.innerHTML = "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-M4DVV9YY7B');"
+    document.head.appendChild(Script);
+    document.head.appendChild(Script2);
   },
   computed: {
     totalGamesPlayed() {
