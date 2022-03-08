@@ -154,7 +154,7 @@ export default {
         setTimeout(function() {
           $this.showWon = true
           $this.gameFinished = true
-          $this.$store.commit("saveResult", {turnsTaken: 7 - this.turnsLeft, won: true})
+          $this.$store.commit("saveResult", {turnsTaken: (7 - $this.turnsLeft), won: true})
         }, 1000)
       } else if (this.turnsLeft == 0) {
         this.showLost = true

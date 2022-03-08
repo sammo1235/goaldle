@@ -7,13 +7,14 @@
   </div>
 
   <div v-if="showHowToPlay" class="modal">
-    <p style="font-size: 20px">Guess the Mystery Player!</p>
-    <p>You have 7 guesses to find the mystery player of the day.</p>
-    <p>If you get any of the players' attributes correct, the corresponding box will show as green.</p>
-    <p>If you get close to, but not quite the correct attribute, the box will show as orange. For example:</p>
-    <p>Age within 2 years</p>
-    <p>Nationality in the right continent but wrong country</p>
-    <p>One of the two Kit colours correct</p>
+    <p style="font-size: 25px">Guess the Mystery Premier League Player!</p>
+    <p>You have 7 guesses to find the mystery outfield (no goalkeepers!) player of the day.</p>
+    <p><span style="color: #37be75">GREEN:</span> If you get any of the players' attributes correct, the corresponding box will show as green.</p>
+    <p><span style="color: #ffa64d">ORANGE:</span> If you get close to, but not quite the correct attribute, the box will show as orange. For example:</p>
+    <p style="margin: 4px;">- Age within 2 years</p>
+    <p style="margin: 4px;">- Nationality in the right continent but wrong country</p>
+    <p style="margin: 4px;">- One of the two Kit colours matches e.g. Claret & Blue is a partial match with Blue</p>
+    <p><span style="color: #878a8c">GREY:</span> If the attribute is completely wrong, then you’ll get greyed out.</p>
     <p>Good Luck!</p>
     <button @click="showHowTo()" class="button-43" role="button">Close</button>
   </div>
@@ -35,14 +36,28 @@
       </div>
     </div>
     <p>Guess Distribution:</p>
-    <div style="display: flex; flex-direction: row-reverse; justifyContent: space-evenly;">
-      <p>7: {{ guessedIn(7) }}</p>
-      <p>6: {{ guessedIn(6) }}</p>
-      <p>5: {{ guessedIn(5) }}</p>
-      <p>4: {{ guessedIn(4) }}</p>
-      <p>3: {{ guessedIn(3) }}</p>
-      <p>2: {{ guessedIn(2) }}</p>
-      <p>1: {{ guessedIn(1) }}</p>
+    <div style="display: flex; flex-direction: column-reverse; justifyContent: space-evenly; margin: 0px; align-items: flex-start; padding-inline: 1rem;">
+      <div style="display: flex; width: 100%">
+        <p style="margin: 5px">7</p><p class="progress-bar" :style="{'width': guessedInPercentage(7)}"><span style="margin-right: 4px;">{{ guessedIn(7) }}</span></p>
+      </div>
+      <div style="display: flex; width: 100%">
+        <p style="margin: 5px">6</p><p class="progress-bar" :style="{'width': guessedInPercentage(6)}"><span style="margin-right: 4px;">{{ guessedIn(6) }}</span></p>
+      </div>
+      <div style="display: flex; width: 100%">
+        <p style="margin: 5px">5</p><p class="progress-bar" :style="{'width': guessedInPercentage(5)}"><span style="margin-right: 4px;">{{ guessedIn(5) }}</span></p>
+      </div>
+      <div style="display: flex; width: 100%">
+        <p style="margin: 5px">4</p><p class="progress-bar" :style="{'width': guessedInPercentage(4)}"><span style="margin-right: 4px;">{{ guessedIn(4) }}</span></p>
+      </div>
+      <div style="display: flex; width: 100%">
+        <p style="margin: 5px">3</p><p class="progress-bar" :style="{'width': guessedInPercentage(3)}"><span style="margin-right: 4px;">{{ guessedIn(3) }}</span></p>
+      </div>
+      <div style="display: flex; width: 100%">
+        <p style="margin: 5px">2</p><p class="progress-bar" :style="{'width': guessedInPercentage(2)}"><span style="margin-right: 4px;">{{ guessedIn(2) }}</span></p>
+      </div>
+      <div style="display: flex; width: 100%">
+        <p style="margin: 5px; margin-right: 8px;">1</p><p class="progress-bar" :style="{'width': guessedInPercentage(1)}"><span style="margin-right: 4px;">{{ guessedIn(1) }}</span></p>
+      </div>
     </div>
     <button @click="showStatsModal()" class="button-43" role="button">Close</button>
   </div>
@@ -64,10 +79,14 @@ export default {
   data() {
     return {
       showHowToPlay: false,
-      showStats: false
+      showStats: true
     }
   },
   created() {
+    if(!this.$store.getters.hasSeenTutorial) {
+      this.showHowToPlay = true
+      this.$store.commit('seenTutorial')
+    }
     document.title = "Goaldle"
   },
   computed: {
@@ -99,7 +118,25 @@ export default {
     guessedIn(turnsTaken) {
       let results = this.$store.getters.getResultsHistory   
       return Object.keys(results).filter((key) => results[key].turns_taken == turnsTaken).length
-    }
+    },
+    guessedInPercentage(turnsTaken) {
+      let results = this.$store.getters.getResultsHistory
+      if (this.totalGamesWon2() > 0) {
+        let wonInTurnsTaken = Object.keys(results).filter((key) => results[key].turns_taken == turnsTaken).length
+        if (wonInTurnsTaken == 0) {
+          return "5%"
+        } else {
+          let guessedInPerc = this.totalGamesWon2() / Object.keys(results).filter((key) => results[key].turns_taken == turnsTaken).length
+          return `${guessedInPerc * 100}%`
+        }
+      } else {
+        return "5%"
+      }
+    },
+    totalGamesWon2() {
+      let results = this.$store.getters.getResultsHistory
+      return Object.keys(results).filter((key) => results[key].won).length
+    },
   }
 }
 </script>
@@ -137,7 +174,7 @@ export default {
   min-width: 240px;
   max-width: 480px; /* Need a specific value to work */
   margin-bottom: 5rem;
-  top: 10rem; 
+  top: 6rem; 
   border: 1px solid lightblue; 
   background: #fff;
   box-shadow: 5px 10px;
@@ -160,6 +197,15 @@ export default {
 }
 body {
   margin: 0;
+}
+.progress-bar {
+  font-size: 14px;
+  display: inline-block; 
+  margin: 3px; 
+  padding: 0.2rem; 
+  background: #878a8c; 
+  color: #fff;
+  text-align: right
 }
 /* CSS */
 .button-43 {
