@@ -79,7 +79,7 @@ export default {
   data() {
     return {
       showHowToPlay: false,
-      showStats: true
+      showStats: false
     }
   },
   created() {
