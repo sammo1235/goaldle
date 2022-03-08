@@ -199,7 +199,7 @@ export default {
       this.showLost = false
     },
     copyToClipboard() {
-      let str = `Goaldle 1 ${7-this.turnsLeft}/7 \n`
+      let str = `Goaldle 1 ${7-this.turnsLeft}/7 \n\n`
       var guesses = this.guesses
       // let results = document.getElementById("gameResults")
       for(var i = 0; i<this.guesses.length; i++) {
@@ -236,6 +236,9 @@ export default {
         }
         str += "\n"
       }
+
+      str += "\n\nPlay here:\n"
+      str += "https://goaldle.herokuapp.com"
 
 
       function copyRichText(text) {
