@@ -110,7 +110,7 @@ export default {
       if (Object.keys(results).length == 0) {
         return 0
       } else {
-        return (Object.keys(results).filter((key) => results[key].won).length / Object.keys(results).length) * 100
+        return Math.round((Object.keys(results).filter((key) => results[key].won).length / Object.keys(results).length) * 100)
       }
     }
   },

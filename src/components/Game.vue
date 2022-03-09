@@ -266,7 +266,7 @@ export default {
       }
 
       str += "\n\nPlay here:\n"
-      str += "https://goaldle.herokuapp.com"
+      str += "https://www.goaldle.com/"
 
 
       function copyRichText(text) {
