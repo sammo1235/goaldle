@@ -71,7 +71,7 @@ export default {
     return {
       search: '',
       turnsLeft: 7,
-      mysteryPlayer: csvFile[47],
+      mysteryPlayer: null,
       playerDatabase: null,
       guesses: [],
       showInstructions: false,
@@ -86,12 +86,39 @@ export default {
         return pl
       }
     })
-    // new player per hour
-    const ms_per_hour = 1 * 60 * 60 * 1000
-    let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)
-    let player_index = hours_since_epoch % this.playerDatabase.length
+    // new player per day
+    const ms_per_day = 24 * 60 * 60 * 1000
+    let days_since_epoch = Math.floor((new Date()).getTime() / ms_per_day)
+    let player_index = days_since_epoch % this.playerDatabase.length
+    let notAllowed = ["Reece James",
+    "Trevoh Chalobah",
+    "Axel Tuanzebe",
+    "Matty Cash",
+    "Ben Godfrey",
+    "Jonjoe Kenny",
+    "Jean-Philippe Mateta",
+    "Odsonne Édouard",
+    "Hamza Choudhury",
+    "Harvey Lewis Barnes",
+    "Dele Alli",
+    "Demarai Gray",
+    "Isaac Hayden",
+    "Jacob Murphy",
+    "James Ward-Prowse",
+    "Nathan Redmond",
+    "Ben Mee",
+    "Matthew Lowton",
+    "James Tomkins",
+    "Joel Ward",
+    "Ashley Barnes",
+    "Jay Rodriguez"]
+
+    while (notAllowed.includes(this.playerDatabase[player_index].full_name)) {
+      player_index += 1
+    } 
     this.mysteryPlayer = this.playerDatabase[player_index]
-    console.log("mysteryPlayer: ", this.mysteryPlayer.full_name, this.mysteryPlayer.current_club, this.mysteryPlayer.position, this.mysteryPlayer.nationality, this.mysteryPlayer.age, this.mysteryPlayer.kit_colour)
+
+    // console.log("mysteryPlayer: ", this.mysteryPlayer.full_name, this.mysteryPlayer.current_club, this.mysteryPlayer.position, this.mysteryPlayer.nationality, this.mysteryPlayer.age, this.mysteryPlayer.kit_colour)
     // fill current day guesses if present
     let guesses = this.$store.getters.getGuesses
     if (guesses) {

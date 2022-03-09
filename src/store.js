@@ -20,7 +20,7 @@ export const store = createStore({
       return state.hasSeenTutorial
     },
     getGuesses(state) {
-      const ms_per_hour = 1 * 60 * 60 * 1000
+      const ms_per_hour = 24 * 60 * 60 * 1000
       let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)
 
       return state.guesses[hours_since_epoch]
@@ -29,7 +29,7 @@ export const store = createStore({
       return state.resultsHistory
     },
     getResultsHistoryForTimePeriod(state) {
-      const ms_per_hour = 1 * 60 * 60 * 1000
+      const ms_per_hour = 24 * 60 * 60 * 1000
       let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)
       if (state.resultsHistory[hours_since_epoch] != undefined) {
         return state.resultsHistory[hours_since_epoch]
@@ -46,7 +46,7 @@ export const store = createStore({
       state.hasSeenTutorial = true;
     },
     addGuess (state, guess) {
-      const ms_per_hour = 1 * 60 * 60 * 1000
+      const ms_per_hour = 24 * 60 * 60 * 1000
       let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)
 
       if (state.guesses[hours_since_epoch] == undefined) {
@@ -56,7 +56,7 @@ export const store = createStore({
       }
     },
     saveResult (state, payload) {
-      const ms_per_hour = 1 * 60 * 60 * 1000
+      const ms_per_hour = 24 * 60 * 60 * 1000
       let hours_since_epoch = Math.floor((new Date()).getTime() / ms_per_hour)
       state.resultsHistory[hours_since_epoch] = {turns_taken: payload.turnsTaken, won: payload.won}
     }
