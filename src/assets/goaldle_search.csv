@@ -8,8 +8,10 @@ Timo Werner,25,Forward,Chelsea,Germany,Europe,Blue,11
 Aaron Lennon,34,Midfielder,Burnley,England,Europe,Claret / Blue,15
 Łukasz Fabiański,36,Goalkeeper,West Ham United,Poland,Europe,Claret / Blue,26
 Eric Dier,28,Midfielder,Tottenham Hotspur,England,Europe,White,22
+Nathan Redmond,27,Midfielder,Southampton,England,Europe,Red / White,19
 Séamus Coleman,33,Defender,Everton,Republic of Ireland,Europe,Blue,19
 Andriy Yarmolenko,32,Forward,West Ham United,Ukraine,Europe,Claret / Blue,11
+Harvey Lewis Barnes,24,Midfielder,Leicester City,England,Europe,Blue,18
 Jamie Vardy,35,Forward,Leicester City,England,Europe,Blue,16
 Saman Ghoddos,28,Forward,Brentford,Sweden,Europe,Red / White,15
 Theo Walcott,32,Forward,Southampton,England,Europe,Red / White,9
@@ -19,6 +21,7 @@ Alexis Mac Allister,23,Midfielder,Brighton & Hove Albion,Argentina,South America
 Yoane Wissa,25,Forward,Brentford,France,Europe,Red / White,19
 Edinson Cavani,34,Forward,Manchester United,Uruguay,South America,Red,11
 Mathias Jattah-Njie Jørgensen,31,Defender,Brentford,Denmark,Europe,Red / White,7
+Jay Rodriguez,32,Forward,Burnley,England,Europe,Claret / Blue,20
 Ismaïla Sarr,23,Midfielder,Watford,Senegal,Africa,Yellow,16
 James Tarkowski,29,Defender,Burnley,England,Europe,Claret / Blue,22
 Stuart Armstrong,29,Midfielder,Southampton,Scotland,Europe,Red / White,13
@@ -48,11 +51,13 @@ Danny Welbeck,31,Forward,Brighton & Hove Albion,England,Europe,Blue / White,13
 Ben Chilwell,25,Defender,Chelsea,England,Europe,Blue,6
 David de Gea,31,Goalkeeper,Manchester United,Spain,Europe,Red,27
 James Milner,36,Midfielder,Liverpool,England,Europe,Red,17
+Ashley Barnes,32,Forward,Burnley,England,Europe,Claret / Blue,13
 Kepa Arrizabalaga,27,Goalkeeper,Chelsea,Spain,Europe,Blue,4
 Rodrigo,30,Forward,Leeds United,Spain,Europe,White,19
 Calum Chambers,27,Defender,Aston Villa,England,Europe,Claret / Blue,5
 Charlie Cresswell,19,Defender,Leeds United,England,Europe,White,4
 Tyrick Mitchell,22,Defender,Crystal Palace,England,Europe,Blue / Red,27
+James Ward-Prowse,27,Midfielder,Southampton,England,Europe,Red / White,24
 Ricardo Pereira,28,Defender,Leicester City,Portugal,Europe,Blue,10
 Mads Bech Sørensen,23,Defender,Brentford,Denmark,Europe,Red / White,5
 Emiliano Buendía,25,Midfielder,Aston Villa,Argentina,South America,Claret / Blue,22
@@ -70,6 +75,7 @@ João Cancelo,27,Defender,Manchester City,Portugal,Europe,Blue,25
 Jon Rowe,18,Defender,Norwich City,England,Europe,Yellow,4
 Ryan Fredericks,29,Midfielder,West Ham United,England,Europe,Claret / Blue,4
 Rondon,32,Forward,Everton,Venezuela,South America,Blue,14
+Hamza Choudhury,24,Midfielder,Leicester City,England,Europe,Blue,4
 Mateusz Klich,31,Midfielder,Leeds United,Poland,Europe,White,21
 Nicolas Pépé,26,Forward,Arsenal,Cote d'Ivoire,Africa,Red,11
 Ryan Sessegnon,21,Defender,Tottenham Hotspur,England,Europe,White,8
@@ -97,6 +103,7 @@ Hakim Ziyech,28,Midfielder,Chelsea,Morocco,Africa,Blue,14
 Andreas Christensen,25,Defender,Chelsea,Denmark,Europe,Blue,14
 Joe Gomez,24,Defender,Liverpool,England,Europe,Red,5
 Kenny Mclean,30,Midfielder,Norwich City,Scotland,Europe,Yellow,24
+Ben Godfrey,24,Defender,Everton,England,Europe,Blue,17
 Francisco Femenía Far,31,Midfielder,Watford,Spain,Europe,Yellow,18
 Bernardo Silva,27,Midfielder,Manchester City,Portugal,Europe,Blue,26
 Lucas Digne,28,Defender,Aston Villa,France,Europe,Claret / Blue,19
@@ -110,6 +117,7 @@ Bertrand Traoré,26,Forward,Aston Villa,Burkina Faso,Africa,Claret / Blue,6
 Matthew Lowton,32,Defender,Burnley,England,Europe,Claret / Blue,18
 Divock Origi,26,Forward,Liverpool,Belgium,Europe,Red,5
 Tom Davies,23,Midfielder,Everton,England,Europe,Blue,5
+Reece James,22,Defender,Chelsea,England,Europe,Blue,16
 Christian Kabasele,30,Defender,Watford,Belgium,Europe,Yellow,6
 Juraj Kucka,34,Midfielder,Watford,Slovakia,Europe,Yellow,21
 Harry Kane,28,Forward,Tottenham Hotspur,England,Europe,White,24
@@ -189,12 +197,15 @@ Alexandre Lacazette,30,Forward,Arsenal,France,Europe,Red,19
 Sam Byram,28,Defender,Norwich City,England,Europe,Yellow,5
 Sergi Canós,25,Midfielder,Brentford,Spain,Europe,Red / White,26
 Nick Pope,29,Goalkeeper,Burnley,England,Europe,Claret / Blue,22
+Trevoh Chalobah,22,Defender,Chelsea,England,Europe,Blue,14
 Fábio Silva,19,Forward,Wolverhampton Wanderers,Portugal,Europe,Orange,14
 Ryan Fraser,27,Midfielder,Newcastle United,Scotland,Europe,Black / White,20
 Moussa Sissoko,32,Midfielder,Watford,France,Europe,Yellow,24
 Fabian Schär,30,Defender,Newcastle United,Switzerland,Europe,Black / White,15
+Ben Mee,32,Defender,Burnley,England,Europe,Claret / Blue,20
 Yves Bissouma,25,Midfielder,Brighton & Hove Albion,Mali,Africa,Blue / White,18
 Rayan Aït Nouri,20,Defender,Wolverhampton Wanderers,France,Europe,Orange,15
+Jonjoe Kenny,24,Defender,Everton,England,Europe,Blue,7
 Nathan Tella,22,Midfielder,Southampton,England,Europe,Red / White,10
 Vicente Guaita,35,Goalkeeper,Crystal Palace,Spain,Europe,Blue / Red,22
 Kieran Trippier,31,Defender,Newcastle United,England,Europe,Black / White,4
@@ -211,6 +222,7 @@ Issa Diop,25,Defender,West Ham United,France,Europe,Claret / Blue,10
 Álvaro Fernández Llorente,23,Goalkeeper,Brentford,Spain,Europe,Red / White,12
 Ashley Young,36,Defender,Aston Villa,England,Europe,Claret / Blue,15
 Mathias Jensen,26,Midfielder,Brentford,Denmark,Europe,Red / White,21
+Jacob Murphy,26,Midfielder,Newcastle United,England,Europe,Black / White,20
 James Justin,22,Midfielder,Leicester City,England,Europe,Blue,4
 Kurt Zouma,27,Defender,West Ham United,France,Europe,Claret / Blue,15
 Sadio Mané,29,Forward,Liverpool,Senegal,Africa,Red,23
@@ -258,6 +270,7 @@ Diego Llorente,28,Defender,Leeds United,Spain,Europe,White,19
 Oghenekaro Etebo,26,Forward,Watford,Nigeria,Africa,Yellow,6
 Jeremy Ngakia,21,Defender,Watford,England,Europe,Yellow,13
 Fabinho,28,Midfielder,Liverpool,Brazil,South America,Red,19
+Dele Alli,25,Midfielder,Everton,England,Europe,Blue,14
 Mads Roerslev Rasmussen,22,Defender,Brentford,Denmark,Europe,Red / White,14
 Will Hughes,26,Midfielder,Crystal Palace,England,Europe,Blue / Red,11
 Harry Winks,26,Midfielder,Tottenham Hotspur,England,Europe,White,13
@@ -281,8 +294,10 @@ Daniel Bachmann,27,Goalkeeper,Watford,Austria,Europe,Yellow,11
 Rob Holding,26,Defender,Arsenal,England,Europe,Red,7
 Diogo Dalot,22,Defender,Manchester United,Portugal,Europe,Red,15
 Ben Gibson,29,Defender,Norwich City,England,Europe,Yellow,22
+Odsonne Édouard,24,Forward,Crystal Palace,France,Europe,Blue / Red,22
 Pascal Groß,30,Midfielder,Brighton & Hove Albion,Germany,Europe,Blue / White,17
 Raphinia,25,Midfielder,Leeds United,Brazil,South America,White,24
+Matty Cash,24,Defender,Aston Villa,England,Europe,Claret / Blue,25
 Anthony Gordon,20,Midfielder,Everton,England,Europe,Blue,21
 Michael Olise,20,Midfielder,Crystal Palace,England,Europe,Blue / Red,20
 Marcus Rashford,24,Forward,Manchester United,England,Europe,Red,17
@@ -320,6 +335,7 @@ Hee-Chan Hwang,26,Forward,Wolverhampton Wanderers,South Korea,Asia,Orange,18
 Riyad Mahrez,30,Midfielder,Manchester City,Algeria,Africa,Blue,20
 Mason Mount,23,Midfielder,Chelsea,England,Europe,Blue,21
 Fernando Marçal,32,Defender,Wolverhampton Wanderers,Brazil,South America,Orange,14
+Jean-Philippe Mateta,24,Forward,Crystal Palace,France,Europe,Blue / Red,12
 Bruno Guimarães,24,Midfielder,Newcastle United,Brazil,South America,Black / White,4
 Steven Alzate,23,Midfielder,Brighton & Hove Albion,England,Europe,Blue / White,7
 Jamal Lewis,24,Midfielder,Newcastle United,Northern Ireland,Europe,Black / White,5
@@ -340,6 +356,7 @@ Dominic Calvert-Lewin,24,Forward,Everton,England,Europe,Blue,8
 Takehiro Tomiyasu,23,Defender,Arsenal,Japan,Asia,Red,16
 Ivan Toney,25,Forward,Brentford,England,Europe,Red / White,22
 André Gomes,28,Midfielder,Everton,Portugal,Europe,Blue,11
+Axel Tuanzebe,24,Defender,Aston Villa,England,Europe,Claret / Blue,9
 Ederson,28,Goalkeeper,Manchester City,Brazil,South America,Blue,26
 Sergio Reguilón,25,Defender,Tottenham Hotspur,Spain,Europe,White,19
 Nathan Michael Collins,20,Defender,Burnley,Republic of Ireland,Europe,Claret / Blue,6
@@ -363,6 +380,8 @@ Ezri Konsa,23,Defender,Aston Villa,England,Europe,Claret / Blue,22
 Douglas Luiz,23,Midfielder,Aston Villa,Brazil,South America,Claret / Blue,21
 Gabriel Jesus,24,Forward,Manchester City,Brazil,South America,Blue,20
 Martin Ødegaard,23,Midfielder,Arsenal,Norway,Europe,Red,22
+Demarai Gray,25,Midfielder,Everton,England,Europe,Blue,21
+Joel Ward,32,Defender,Crystal Palace,England,Europe,Blue / Red,23
 Mohamed Salisu,22,Defender,Southampton,Ghana,Africa,Red / White,25
 Emmanuel Dennis,24,Forward,Watford,Nigeria,Africa,Yellow,24
 Jakob Sørensen,23,Midfielder,Norwich City,Denmark,Europe,Yellow,6
@@ -380,6 +399,7 @@ Ryan Bertrand,32,Defender,Leicester City,England,Europe,Blue,4
 Javier Manquillo,27,Defender,Newcastle United,Spain,Europe,Black / White,15
 Adam Lallana,33,Midfielder,Brighton & Hove Albion,England,Europe,Blue / White,20
 Boubakary Soumaré,22,Midfielder,Leicester City,France,Europe,Blue,17
+Isaac Hayden,26,Midfielder,Newcastle United,England,Europe,Black / White,14
 Mohamed Saïd Benrahma,26,Forward,West Ham United,Algeria,Africa,Claret / Blue,23
 Ben Foster,38,Goalkeeper,Watford,England,Europe,Yellow,15
 John Stones,27,Defender,Manchester City,England,Europe,Blue,9
@@ -393,6 +413,7 @@ Mathias Normann,25,Midfielder,Norwich City,Norway,Europe,Yellow,13
 Andros Townsend,30,Midfielder,Everton,England,Europe,Blue,19
 Jarrod Bowen,25,Forward,West Ham United,England,Europe,Claret / Blue,27
 Shane Duffy,30,Defender,Brighton & Hove Albion,Republic of Ireland,Europe,Blue / White,16
+James Tomkins,32,Defender,Crystal Palace,England,Europe,Blue / Red,8
 Aaron Wan-Bissaka,24,Defender,Manchester United,England,Europe,Red,17
 Emil Krafth,27,Defender,Newcastle United,Sweden,Europe,Black / White,10
 Pierre-Emile Højbjerg,26,Midfielder,Tottenham Hotspur,Denmark,Europe,White,23

@@ -58,8 +58,8 @@
 </template>
 
 <script>
-import csvFile from "../assets/goaldle.csv"
-// import ClipboardItem from 'clipboard'
+import playerDatabaseFile from "../assets/goaldle.csv"
+import searchDatabaseFile from "../assets/goaldle_search.csv"
 
 export default {
   name: 'PlayGame',
@@ -73,6 +73,7 @@ export default {
       turnsLeft: 7,
       mysteryPlayer: null,
       playerDatabase: null,
+      searchDatabase: null,
       guesses: [],
       showInstructions: false,
       showWon: false,
@@ -81,7 +82,12 @@ export default {
     }
   },
   created() {
-    this.playerDatabase = csvFile.filter(function (pl) {
+    this.searchDatabase = searchDatabaseFile.filter(function (pl) {
+      if (pl.position != "Goalkeeper") {
+        return pl
+      }
+    })
+    this.playerDatabase = playerDatabaseFile.filter(function (pl) {
       if (pl.position != "Goalkeeper") {
         return pl
       }
@@ -90,35 +96,32 @@ export default {
     const ms_per_day = 24 * 60 * 60 * 1000
     let days_since_epoch = Math.floor((new Date()).getTime() / ms_per_day)
     let player_index = days_since_epoch % this.playerDatabase.length
-    let notAllowed = ["Reece James",
-    "Trevoh Chalobah",
-    "Axel Tuanzebe",
-    "Matty Cash",
-    "Ben Godfrey",
-    "Jonjoe Kenny",
-    "Jean-Philippe Mateta",
-    "Odsonne Édouard",
-    "Hamza Choudhury",
-    "Harvey Lewis Barnes",
-    "Dele Alli",
-    "Demarai Gray",
-    "Isaac Hayden",
-    "Jacob Murphy",
-    "James Ward-Prowse",
-    "Nathan Redmond",
-    "Ben Mee",
-    "Matthew Lowton",
-    "James Tomkins",
-    "Joel Ward",
-    "Ashley Barnes",
-    "Jay Rodriguez"]
+    // let notAllowed = ["Reece James",
+    // "Trevoh Chalobah",
+    // "Axel Tuanzebe",
+    // "Matty Cash",
+    // "Ben Godfrey",
+    // "Jonjoe Kenny",
+    // "Jean-Philippe Mateta",
+    // "Odsonne Édouard",
+    // "Hamza Choudhury",
+    // "Harvey Lewis Barnes",
+    // "Dele Alli",
+    // "Demarai Gray",
+    // "Isaac Hayden",
+    // "Jacob Murphy",
+    // "James Ward-Prowse",
+    // "Nathan Redmond",
+    // "Ben Mee",
+    // "Matthew Lowton",
+    // "James Tomkins",
+    // "Joel Ward",
+    // "Ashley Barnes",
+    // "Jay Rodriguez"]
 
-    while (notAllowed.includes(this.playerDatabase[player_index].full_name)) {
-      player_index += 1
-    } 
     this.mysteryPlayer = this.playerDatabase[player_index]
 
-    // console.log("mysteryPlayer: ", this.mysteryPlayer.full_name, this.mysteryPlayer.current_club, this.mysteryPlayer.position, this.mysteryPlayer.nationality, this.mysteryPlayer.age, this.mysteryPlayer.kit_colour)
+    console.log("mysteryPlayer: ", this.mysteryPlayer.full_name, this.mysteryPlayer.current_club, this.mysteryPlayer.position, this.mysteryPlayer.nationality, this.mysteryPlayer.age, this.mysteryPlayer.kit_colour)
     // fill current day guesses if present
     let guesses = this.$store.getters.getGuesses
     if (guesses) {
@@ -161,7 +164,7 @@ export default {
       }
 
       function replaceDiacritics(text) { return text .split('') .map(l => Object.keys(diacritics).find(k => diacritics[k].includes(l)) || l) .join(''); }
-      let players = this.playerDatabase.filter(player => {
+      let players = this.searchDatabase.filter(player => {
         return replaceDiacritics(player.full_name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")).includes(this.search.toLowerCase())
       })
 
@@ -170,14 +173,14 @@ export default {
   },
   methods: {
     guessPlayer(guessedName) {
-      let player = this.playerDatabase.find(player => 
+      let player = this.searchDatabase.find(player => 
         player.full_name.toLowerCase() == guessedName.toLowerCase()
       )
       this.guesses.push(player)
       this.$store.commit('addGuess', player)
       this.search = ''
       this.turnsLeft -= 1
-      if (player == this.mysteryPlayer) {
+      if (player.full_name == this.mysteryPlayer.full_name) {
         const $this = this;
         setTimeout(function() {
           $this.showWon = true
@@ -227,7 +230,9 @@ export default {
       this.showLost = false
     },
     copyToClipboard() {
-      let str = `Goaldle 1 ${7-this.turnsLeft}/7 \n\n`
+      const ms_per_day = 24 * 60 * 60 * 1000
+      let days_since_epoch = Math.floor((new Date()).getTime() / ms_per_day)
+      let str = `Goaldle ${days_since_epoch - 19060} ${7-this.turnsLeft}/7 \n\n`
       var guesses = this.guesses
       // let results = document.getElementById("gameResults")
       for(var i = 0; i<this.guesses.length; i++) {
